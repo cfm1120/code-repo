@@ -1,4 +1,4 @@
-package com.kan.util.http;
+package com.sbstudio.kan.util.http;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

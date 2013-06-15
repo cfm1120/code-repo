@@ -1,11 +1,11 @@
-package com.kan.util.http;
+package com.sbstudio.kan.util.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
 import android.util.Log;
 
-import com.kan.util.json.FileUtils;
+import com.sbstudio.kan.util.json.FileUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -1,6 +1,6 @@
-package com.kan.util.http;
+package com.sbstudio.kan.util.http;
 
-import com.kan.util.json.JsonUtil;
+import com.sbstudio.kan.util.json.JsonUtil;
 
 import org.apache.http.protocol.HTTP;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.kan.util.json;
+package com.sbstudio.kan.util.json;
 
 import android.os.Environment;
 

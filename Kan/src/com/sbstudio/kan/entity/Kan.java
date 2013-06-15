@@ -1,4 +1,4 @@
-package com.kan.entity;
+package com.sbstudio.kan.entity;
 
 /**
  * 微刊

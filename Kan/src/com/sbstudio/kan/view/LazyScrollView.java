@@ -1,4 +1,4 @@
-package com.sbstudio;
+package com.sbstudio.kan.view;
 //来自：http://blog.csdn.net/listening_music/article/details/7192629
 import android.content.Context;
 import android.os.Handler;

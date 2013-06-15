@@ -1,5 +1,6 @@
-package com.kan.entity;
+package com.sbstudio.kan.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,8 +8,10 @@ import java.util.List;
  * @author water3
  * @date 2013-6-9
  */
-public class Article {
-    private String aid;
+public class Article implements Serializable{
+    /**  **/
+	private static final long serialVersionUID = 1L;
+	private String aid;
     /**
      * 封面图
      */

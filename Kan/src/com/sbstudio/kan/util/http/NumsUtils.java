@@ -1,4 +1,4 @@
-package com.kan.util.http;
+package com.sbstudio.kan.util.http;
 
 /**
  * 记录一些常量

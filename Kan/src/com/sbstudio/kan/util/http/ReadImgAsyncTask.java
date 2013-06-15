@@ -1,4 +1,4 @@
-package com.kan.util.http;
+package com.sbstudio.kan.util.http;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;

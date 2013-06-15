@@ -1,4 +1,4 @@
-package com.kan.util.json;
+package com.sbstudio.kan.util.json;
 
 import com.google.gson.Gson;
 
