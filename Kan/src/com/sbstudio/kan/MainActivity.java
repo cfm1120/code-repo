@@ -27,6 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.sbstudio.kan.R;
 import com.sbstudio.kan.entity.Kan;
 import com.sbstudio.kan.util.http.HttpUtils;
@@ -62,7 +65,8 @@ public class MainActivity extends Activity {
 	private List<Kan> kans;
 	private List<Map<String, Object>> dataList;
 	
-	
+	 DisplayImageOptions options;
+	 protected ImageLoader imageLoader = ImageLoader.getInstance();
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +87,14 @@ public class MainActivity extends Activity {
 //        }
         //test done
       
-        
+        options = new DisplayImageOptions.Builder()
+		.showStubImage(R.drawable.ic_stub)
+		.showImageForEmptyUri(R.drawable.ic_empty)
+		.showImageOnFail(R.drawable.ic_error)
+		.cacheInMemory()
+		.cacheOnDisc()
+//		.displayer(new RoundedBitmapDisplayer(20))
+		.build();
         
         
         pullListView = (RTPullListView) this.findViewById(R.id.pullListView);
@@ -143,9 +154,12 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,long arg3) {
-				Intent intent=new Intent(getApplicationContext(),WaterFallActivity.class);
+				if(position!=dataList.size()+1)
+				{
+				Intent intent=new Intent(getApplicationContext(),SampleActivity.class);
 				intent.putExtra("kid", dataList.get(position-1).get("kid")+"");
 				startActivity(intent);
+				}
 			}
 		});
 		
@@ -182,7 +196,7 @@ public class MainActivity extends Activity {
 		});
 		
 		//第一次进入
-		 loadMoreTextView.setText("正在加载微刊...");
+		 loadMoreTextView.setText(R.string.xlistview_header_hint_loading);
 	     moreProgressBar.setVisibility(View.VISIBLE);
 	     footerView.setClickable(false);
 	     loadKan(PAGE_NOW, PAGE_COUNT);
@@ -312,7 +326,9 @@ public class MainActivity extends Activity {
 			//监听事件里面用到的
 //			final String kanId=(String) dataList.get(position).get("kid");
 			
-			ReadImgAsyncTask.load(holder.kan_img, (String)dataList.get(position).get("img"), 240, 160);
+//			ReadImgAsyncTask.load(holder.kan_img, (String)dataList.get(position).get("img"), 240, 160);
+			imageLoader.displayImage((String)dataList.get(position).get("img"), holder.kan_img, options, null);
+			
 			holder.kan_name.setText((String)dataList.get(position).get("name"));
 			return convertView;
 		}

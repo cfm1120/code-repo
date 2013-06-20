@@ -1,37 +1,40 @@
 package com.sbstudio.kan;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.json.JSONException;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.huewu.pla.lib.internal.PLA_AbsListView;
-import com.huewu.pla.lib.internal.PLA_AbsListView.OnScrollListener;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.sbstudio.kan.entity.Article;
 import com.sbstudio.kan.util.http.HttpUtils;
 import com.sbstudio.kan.view.ScaleImageView;
 import com.sbstudio.kan.view.XListView;
 import com.sbstudio.kan.view.XListView.IXListViewListener;
 import com.sbstudio.kan.view.XListViewFooter;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class SampleActivity extends FragmentActivity implements IXListViewListener {
     private XListView xlistView = null;
@@ -48,7 +51,7 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
     private static final int COMPLETE_ADD=2;
     private static final int NET_ERROR=-1;
     
-    String kid="3569497735585857";
+    private String kid;
     
     
     /**
@@ -143,6 +146,7 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
     }
 
     public class StaggeredAdapter extends BaseAdapter {
+    	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -166,7 +170,7 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
             
 
 //            mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
-            imageLoader.displayImage(mInfos.get(position).getCoverimg(), holder.imageView, options, null);
+            imageLoader.displayImage(mInfos.get(position).getCoverimg(), holder.imageView, options, animateFirstListener);
 //            holder.imageView.setBackgroundResource(R.drawable.ic_empty);
             return convertView;
         }
@@ -196,6 +200,9 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_pull_to_refresh_sample);
+        
+        Intent intent=getIntent();
+		kid=intent.getStringExtra("kid");
         
         options = new DisplayImageOptions.Builder()
         .showStubImage(R.drawable.ic_stub)
@@ -287,4 +294,23 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
         AddItemToContainer(++currentPage,PAGE_COUNT);
 
     }
+    
+    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			if (loadedImage != null) {
+				ScaleImageView imageView = (ScaleImageView) view;
+				boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay) {
+					FadeInBitmapDisplayer.animate(imageView, 800);
+					displayedImages.add(imageUri);
+				}
+			}
+		}
+	}
+    
+    
 }// end of class
