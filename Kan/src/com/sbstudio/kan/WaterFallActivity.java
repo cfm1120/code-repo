@@ -1,12 +1,7 @@
-package com.sbstudio;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
+package com.sbstudio.kan;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,12 +19,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.sbstudio.kan.R;
 import com.sbstudio.kan.entity.Article;
 import com.sbstudio.kan.util.http.HttpUtils;
-import com.sbstudio.kan.util.http.ReadImgAsyncTask;
 import com.sbstudio.kan.view.LazyScrollView;
 import com.sbstudio.kan.view.LazyScrollView.OnScrollListener;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WaterFallActivity extends Activity {
 
@@ -40,7 +47,10 @@ public class WaterFallActivity extends Activity {
 //	private AssetManager assetManager;
 	private List<String> image_urls;
 //	private final String image_path = "images";
-
+	//test
+	DisplayImageOptions options;
+	protected ImageLoader imageLoader = ImageLoader.getInstance();
+	
 	private int itemWidth;
 
 	private int column_count = 2;// 显示列数
@@ -116,6 +126,18 @@ public class WaterFallActivity extends Activity {
 		display = this.getWindowManager().getDefaultDisplay();
 		itemWidth = display.getWidth() / column_count;// 根据屏幕大小计算每列大小
 
+		//test
+		options = new DisplayImageOptions.Builder()
+        .showStubImage(R.drawable.ic_stub)
+        .showImageForEmptyUri(R.drawable.ic_empty)
+        .showImageOnFail(R.drawable.ic_error)
+        .cacheInMemory()
+        .cacheOnDisc()
+//        .displayer(new RoundedBitmapDisplayer(20))
+        .build();
+		
+//		initImageLoader(getApplicationContext());
+		
 		InitLayout();
 		
 		
@@ -201,7 +223,6 @@ public class WaterFallActivity extends Activity {
 		ImageView item = (ImageView) LayoutInflater.from(this).inflate(
 				R.layout.waterfallitem, null);
 		waterfall_items.get(columnIndex).addView(item);
-
 		
 		for (Article article : articles) {
 			if(article.getCoverimg().equals(url))
@@ -230,7 +251,24 @@ public class WaterFallActivity extends Activity {
 //		task.execute(param);
 		
 		//test
-		ReadImgAsyncTask.load(item, url, itemWidth, 900);
+//		ReadImgAsyncTask.load(item, url, itemWidth, 900);
+		imageLoader.displayImage(url, item, options, null);
 
 	}
+	
+//	public void initImageLoader(Context context) {
+//        // This configuration tuning is custom. You can tune every option, you may tune some of them, 
+//        // or you can create default configuration by
+//        //  ImageLoaderConfiguration.createDefault(this);
+//        // method.
+//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+//                .threadPriority(Thread.NORM_PRIORITY - 2)
+//                .denyCacheImageMultipleSizesInMemory()
+//                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+//                .tasksProcessingOrder(QueueProcessingType.LIFO)
+//                .enableLogging() // Not necessary in common
+//                .build();
+//        // Initialize ImageLoader with configuration.
+//        imageLoader.init(config);
+//    }
 }

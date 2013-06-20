@@ -317,10 +317,10 @@ public class XListView extends MultiColumnListView implements OnScrollListener {
 		super.computeScroll();
 	}
 
-//	@Override
-//	public void setOnScrollListener(OnScrollListener l) {
-//		mScrollListener = l;
-//	}
+	@Override
+	public void setOnScrollListener(OnScrollListener l) {
+		mScrollListener = l;
+	}
 //
 //	@Override
 //	public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -370,4 +370,21 @@ public class XListView extends MultiColumnListView implements OnScrollListener {
 			mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
 		}	
 	}
+	//water3++
+    public XListViewFooter getFooterView() {
+        return mFooterView;
+    }
+
+    public Scroller getScroller() {
+        return mScroller;
+    }
+
+    public void setScroller(Scroller mScroller) {
+        this.mScroller = mScroller;
+    }
+
+   
+
+	
+	
 }

@@ -1,4 +1,4 @@
-package com.sbstudio;
+package com.sbstudio.kan;
 
 import java.io.IOException;
 import java.util.ArrayList;
