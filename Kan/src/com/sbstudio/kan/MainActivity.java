@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,11 +30,11 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.sbstudio.kan.R;
 import com.sbstudio.kan.entity.Kan;
+import com.sbstudio.kan.util.http.AutoUpdate;
+import com.sbstudio.kan.util.http.Config;
 import com.sbstudio.kan.util.http.HttpUtils;
-import com.sbstudio.kan.util.http.ReadImgAsyncTask;
+import com.sbstudio.kan.util.http.MyBitmapDisplayer;
 import com.sbstudio.kan.view.RTPullListView;
 import com.sbstudio.kan.view.RTPullListView.OnRefreshListener;
 
@@ -48,9 +49,11 @@ public class MainActivity extends Activity {
 	private static final int LOAD_MORE_NODATA = 2;
 	private static final int LOAD_MORE_SUCCESS = 3;
 	
-
+	AutoUpdate autoUpdate;
+	
+	
 	/** 每页加载几张 **/
-	private static final int PAGE_COUNT = 2;
+	private static final int PAGE_COUNT = 5;
 	/** 当前加载到第几页  **/
 	private int PAGE_NOW = 1;
 	private LayoutInflater inflater;
@@ -72,6 +75,12 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        //自动更新
+        autoUpdate = new AutoUpdate(this);
+		autoUpdate.Start();
+        
+        
         //初始化一些变量
         kans=new ArrayList<Kan>();
         dataList = new ArrayList<Map<String,Object>>();
@@ -93,7 +102,7 @@ public class MainActivity extends Activity {
 		.showImageOnFail(R.drawable.ic_error)
 		.cacheInMemory()
 		.cacheOnDisc()
-//		.displayer(new RoundedBitmapDisplayer(20))
+		.displayer(new MyBitmapDisplayer(this))
 		.build();
         
         
@@ -126,7 +135,7 @@ public class MainActivity extends Activity {
 						
 							try {
 								PAGE_NOW=1;
-								kans=HttpUtils.getHttpResponseObjectList("http://www.3sbstudio.com/api/kan.php?type=kan&page="+PAGE_NOW+"&count="+PAGE_COUNT, Kan[].class);
+								kans=HttpUtils.getHttpResponseObjectList(Config.SERVER+"kan.php?type=kan&page="+PAGE_NOW+"&count="+PAGE_COUNT, Kan[].class);
 								dataList.clear();
 								for (Kan kan : kans) {
 							    	Map<String, Object> map = new HashMap<String, Object>();
@@ -176,7 +185,7 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 	                    try {
-							kans=HttpUtils.getHttpResponseObjectList("http://www.3sbstudio.com/api/kan.php?type=kan&page="+ ++PAGE_NOW+"&count="+PAGE_COUNT, Kan[].class);
+							kans=HttpUtils.getHttpResponseObjectList(Config.SERVER+"kan.php?type=kan&page="+ ++PAGE_NOW+"&count="+PAGE_COUNT, Kan[].class);
 							for (Kan kan : kans) {
 						    	Map<String, Object> map = new HashMap<String, Object>();
 								map.put("kid", kan.getKid());
@@ -257,7 +266,7 @@ public class MainActivity extends Activity {
             {
                 //界面开始时请求http
                 try {
-                    kans=HttpUtils.getHttpResponseObjectList("http://www.3sbstudio.com/api/kan.php?type=kan&page="+page+"&count="+count, Kan[].class);
+                    kans=HttpUtils.getHttpResponseObjectList(Config.SERVER+"kan.php?type=kan&page="+page+"&count="+count, Kan[].class);
                     for (Kan kan : kans) {
     			    	Map<String, Object> map = new HashMap<String, Object>();
     					map.put("kid", kan.getKid());
@@ -328,7 +337,7 @@ public class MainActivity extends Activity {
 			
 //			ReadImgAsyncTask.load(holder.kan_img, (String)dataList.get(position).get("img"), 240, 160);
 			imageLoader.displayImage((String)dataList.get(position).get("img"), holder.kan_img, options, null);
-			
+			Log.e("imageview", holder.kan_img+"");
 			holder.kan_name.setText((String)dataList.get(position).get("name"));
 			return convertView;
 		}

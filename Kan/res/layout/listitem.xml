@@ -3,20 +3,29 @@
     android:id="@+id/list_item"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp"
+    android:paddingBottom="8dp"
     android:orientation="vertical" >
-     <TextView 
+     
+ <ImageView 
+	     android:id="@+id/kan_img"
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:layout_centerHorizontal="true"
+	     />
+   <TextView 
          android:id="@+id/kan_name"
 	     android:layout_width="wrap_content"
 	     android:layout_height="wrap_content"
+	     android:layout_below="@+id/kan_img"
+	     android:layout_alignParentRight="true"
+	     android:paddingRight="15dp"
+	     android:paddingLeft="15dp"
+	     android:textSize="18dp"
+	     android:singleLine="true"
+	     android:ellipsize="end"
+	     android:layout_marginTop="-5dp"
         />
- <ImageView 
-	     android:id="@+id/kan_img"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:padding="1dp"
-	     android:layout_below="@+id/kan_name"
-	     android:layout_centerHorizontal="true"
-	     />
-   
 
 </RelativeLayout>

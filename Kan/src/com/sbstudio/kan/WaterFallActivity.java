@@ -1,7 +1,12 @@
 package com.sbstudio.kan;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONException;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,24 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.sbstudio.kan.R;
 import com.sbstudio.kan.entity.Article;
+import com.sbstudio.kan.util.http.Config;
 import com.sbstudio.kan.util.http.HttpUtils;
 import com.sbstudio.kan.view.LazyScrollView;
 import com.sbstudio.kan.view.LazyScrollView.OnScrollListener;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WaterFallActivity extends Activity {
 
@@ -103,7 +97,7 @@ public class WaterFallActivity extends Activity {
             {
                 //界面开始时请求http
                 try {
-                    articles=HttpUtils.getHttpResponseObjectList("http://www.3sbstudio.com/api/kan.php?type=article&kid="+kid+"&page="+page+"&count="+count, Article[].class);
+                    articles=HttpUtils.getHttpResponseObjectList(Config.SERVER+"kan.php?type=article&kid="+kid+"&page="+page+"&count="+count, Article[].class);
                     current_page=page-1;
                     myHandler.sendEmptyMessage(COMPLETE);
                 } catch (IOException e) {

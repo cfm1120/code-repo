@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.huewu.pla.lib.internal.PLA_AdapterView;
@@ -30,6 +29,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.sbstudio.kan.entity.Article;
+import com.sbstudio.kan.util.http.Config;
 import com.sbstudio.kan.util.http.HttpUtils;
 import com.sbstudio.kan.view.ScaleImageView;
 import com.sbstudio.kan.view.XListView;
@@ -104,7 +104,7 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
             {
                 //界面开始时请求http
                 try {
-                    articles=HttpUtils.getHttpResponseObjectList("http://www.3sbstudio.com/api/kan.php?type=article&kid="+kid+"&page="+page+"&count="+count, Article[].class);
+                    articles=HttpUtils.getHttpResponseObjectList(Config.SERVER+"kan.php?type=article&kid="+kid+"&page="+page+"&count="+count, Article[].class);
                     myHandler.sendEmptyMessage(COMPLETE);
                 } catch (IOException e) {
                      myHandler.sendEmptyMessage(NET_ERROR);
@@ -131,7 +131,7 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
             {
                 //界面开始时请求http
                 try {
-                    articles=HttpUtils.getHttpResponseObjectList("http://www.3sbstudio.com/api/kan.php?type=article&kid="+kid+"&page="+page+"&count="+count, Article[].class);
+                    articles=HttpUtils.getHttpResponseObjectList(Config.SERVER+"kan.php?type=article&kid="+kid+"&page="+page+"&count="+count, Article[].class);
                     myHandler.sendEmptyMessage(COMPLETE_ADD);
                 } catch (IOException e) {
                     myHandler.sendEmptyMessage(NET_ERROR);
