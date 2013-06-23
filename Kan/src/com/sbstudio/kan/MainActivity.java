@@ -9,12 +9,16 @@ import java.util.Map;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -347,6 +351,26 @@ public class MainActivity extends Activity {
 		 ImageView kan_img;
 		 TextView kan_name;
    }
-   
 
+	@Override
+	public void onBackPressed() {
+		new AlertDialog.Builder(this).setTitle("确认退出吗？")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 点击“确认”后的操作
+						MainActivity.this.finish();
+
+					}
+				})
+				.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 点击“返回”后的操作,这里不设置没有任何操作
+					}
+				}).show();
+		// super.onBackPressed();
+	}
 }
