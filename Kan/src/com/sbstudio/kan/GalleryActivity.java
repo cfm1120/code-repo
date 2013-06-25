@@ -22,6 +22,7 @@ import ru.truba.touchgallery.GalleryWidget.UrlPagerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.sbstudio.kan.R;
 import com.sbstudio.kan.entity.Article;
