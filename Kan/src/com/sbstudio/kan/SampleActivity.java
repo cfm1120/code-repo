@@ -253,7 +253,7 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
         loadArticleCover(1, PAGE_COUNT);
         mAdapter=new StaggeredAdapter();
       
-        
+        xlistView.setAdapter(mAdapter);
         
     }
 
@@ -266,20 +266,6 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
     public boolean onOptionsItemSelected(MenuItem item) {
 
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        mImageFetcher.setExitTasksEarly(false);
-        xlistView.setAdapter(mAdapter);
-//        AddItemToContainer(currentPage,PAGE_COUNT);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
     }
 
     @Override
@@ -311,6 +297,20 @@ public class SampleActivity extends FragmentActivity implements IXListViewListen
 			}
 		}
 	}
+
+//    int pos=0;
+//	@Override
+//	protected void onRestart() {
+//		super.onRestart();
+//		xlistView.setScrollY(pos);
+//		System.out.println("restart "+pos);
+//	}
+//	 @Override
+//	 protected void onStop() {
+//	  super.onStop();
+//	  pos=xlistView.getFirstVisiblePosition();
+//	  System.out.println(pos+" stop");
+//	 }
     
     
 }// end of class

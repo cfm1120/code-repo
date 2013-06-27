@@ -203,19 +203,20 @@ public class AutoUpdate
 			{
 				String strVersion = HttpUtils.getHttpResponseText(strUrl);
 				Log.i("自动更新", "版本号：" + strVersion);
-				if(strVersion == ""||strVersion==null)
-				{
-					MsgHandler.sendEmptyMessage(UPDATE_STATE_SET_SERVER_ADDRESS);
-				}
-				else if(!strVersion.equals(softVersion))
+//				if(strVersion == ""||strVersion==null)
+//				{
+//					MsgHandler.sendEmptyMessage(UPDATE_STATE_SET_SERVER_ADDRESS);
+//				}
+//				else if(!strVersion.equals(softVersion))
+				 if(!strVersion.equals(softVersion))
 				{
 					MsgHandler.sendEmptyMessage(UPDATE_STATE_NOTICE_UPDATE);
 				}
 			}
-			else
-			{
-				MsgHandler.sendEmptyMessage(UPDATE_STATE_SET_SERVER_ADDRESS);
-			}
+//			else
+//			{
+//				MsgHandler.sendEmptyMessage(UPDATE_STATE_SET_SERVER_ADDRESS);
+//			}
 		}
     };
       

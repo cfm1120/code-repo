@@ -197,6 +197,8 @@ public class MainActivity extends Activity {
 								map.put("name", kan.getName());
 								dataList.add(map);
 							}
+							if(kans.isEmpty())
+								myHandler.sendEmptyMessage(LOAD_MORE_NODATA);
 							myHandler.sendEmptyMessage(LOAD_MORE_SUCCESS);
 	                    } catch (IOException e1) {
 	                    	myHandler.sendEmptyMessage(NET_ERROR);
